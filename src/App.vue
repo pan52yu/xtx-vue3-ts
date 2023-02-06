@@ -1,5 +1,5 @@
 <template>
-    <div>app组件</div>
+    <h1>app组件</h1>
 </template>
 
 <script lang="ts" setup>
@@ -11,3 +11,12 @@ const test = async () => {
 }
 test()
 </script>
+<style lang="less" scoped>
+// 必须导入variables.less
+@import '@/assets/styles/variables.less';
+@import '@/assets/styles/mixins.less';
+h1 {
+    background-color: @warnColor;
+    .hoverShadow()
+}
+</style>
