@@ -1,4 +1,9 @@
-<script lang="ts" setup name="AppHeaderNav"></script>
+<script lang="ts" setup name="AppHeaderNav">
+import useStore from "@/store";
+
+const {category} = useStore()
+console.log("🚀 ~ file:app-header-nav line:5 >>>",category.list)
+</script>
 
 <template>
     <ul class="app-header-nav">
