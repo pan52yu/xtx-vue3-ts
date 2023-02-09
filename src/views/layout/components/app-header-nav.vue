@@ -9,6 +9,7 @@ category.getAllCategory()
       <li class="home"><RouterLink to="/">首页</RouterLink></li>
       <li v-for="item in category.list" :key="item.id">
         <a href="#">{{ item.name }}</a>
+        
       </li>
     </ul>
   </template>
