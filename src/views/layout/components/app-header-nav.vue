@@ -8,7 +8,7 @@ category.getAllCategory()
     <ul class="app-header-nav">
       <li class="home"><RouterLink to="/">首页</RouterLink></li>
       <li v-for="item in category.list" :key="item.id">
-        <a href="#">{{ item.name }}</a>
+        <router-link to="/">{{ item.name }}</router-link>
         <!-- 我测试一下提交 -->
       </li>
     </ul>
