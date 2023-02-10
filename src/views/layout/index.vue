@@ -6,7 +6,9 @@ import AppFooter from "@/views/layout/components/app-footer.vue";
 <template>
     <app-topnav></app-topnav>
     <app-header></app-header>
-    <div style="min-height: 600px">我是layout组件</div>
+    <div style="min-height: 600px">
+        <router-view></router-view>
+    </div>
     <app-footer></app-footer>
 </template>
 
