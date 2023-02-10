@@ -20,7 +20,7 @@ category.getAllCategory()
             <div :class="{open: item.open}" class="layer" v-if="item.children">
                 <ul>
                     <li v-for="i in item.children" :key="i.id">
-                        <router-link :to="`/category/sub/${i.id}`">
+                        <router-link @click="category.hide(item.id)" :to="`/category/sub/${i.id}`">
                             <img
                                 :src="i.picture"
                                 alt=""
