@@ -10,18 +10,22 @@ category.getAllCategory()
         <li class="home">
             <RouterLink to="/">首页</RouterLink>
         </li>
-        <li v-for="(item,index) in category.list" :key="index">
-            <router-link to="/">{{ item.name }}</router-link>
-            <!-- 单层 -->
-            <div class="layer" v-if="item.children">
+        <li @mouseenter="category.show(item.id)" @mouseleave="category.hide(item.id)"
+            v-for="(item,index) in category.list" :key="index">
+            <router-link @click="category.hide(item.id)" :to="item.id ? `/category/${item.id}` : '/'">{{
+                    item.name
+                }}
+            </router-link>
+            <!-- 弹层 -->
+            <div :class="{open: item.open}" class="layer" v-if="item.children">
                 <ul>
                     <li v-for="i in item.children" :key="i.id">
-                        <router-link to="/">
+                        <router-link :to="`/category/sub/${i.id}`">
                             <img
                                 :src="i.picture"
                                 alt=""
                             />
-                            <p>{{i.name}}</p>
+                            <p>{{ i.name }}</p>
                         </router-link>
                     </li>
                 </ul>
@@ -38,6 +42,7 @@ category.getAllCategory()
     position: relative;
     z-index: 998;
 
+    // > 子代选择器
     > li {
         margin-right: 40px;
         width: 38px;
@@ -62,10 +67,10 @@ category.getAllCategory()
                 border-bottom: 1px solid @xtxColor;
             }
 
-            > .layer {
-                height: 132px;
-                opacity: 1;
-            }
+            /*            > .layer {
+                            height: 132px;
+                            opacity: 1;
+                        }*/
         }
     }
 }
@@ -82,6 +87,11 @@ category.getAllCategory()
     opacity: 0;
     box-shadow: 0 0 5px #ccc;
     transition: all 0.2s 0.1s;
+
+    &.open {
+        height: 132px;
+        opacity: 1;
+    }
 
     ul {
         display: flex;

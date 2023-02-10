@@ -18,7 +18,19 @@ export default defineStore('category', {
             const res = await request.get<ApiRes<CategoryItem[]>>(
                 '/home/category/head'
             )
+            // 给每一个一级分类添加一个open属性，用于控制显示隐藏
+            res.data.result.forEach(item => {
+                item.open = false
+            })
             this.list = res.data.result
+        },
+        show(id: string) {
+            const category = this.list.find((item) => item.id === id)
+            category!.open = true
+        },
+        hide(id: string) {
+            const category = this.list.find((item) => item.id === id)
+            category!.open = false
         },
     },
 })
