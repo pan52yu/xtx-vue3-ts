@@ -25,7 +25,6 @@ const y = useScrollY() */
 
 <template>
     <div ref="el" />
-    {{ y }}
     <!-- v-show不加在最外面 不然就没有状态了 -->
     <div class="app-header-sticky" :class="{ show: y >= 78 }">
         <div class="container" v-show="y >= 78">
