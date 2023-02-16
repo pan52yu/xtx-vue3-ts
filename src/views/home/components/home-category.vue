@@ -9,13 +9,17 @@ const goods = computed(() => {
     const itemObj = category.list.find(item => item.id == categoryId.value)
     return itemObj?.goods
 })
+const handleEnter = (id: string) => {
+    if(!id) return
+    categoryId.value = id
+}
 </script>
 <template>
     <div class="home-category" @mouseleave="categoryId = ''"> 
         <ul class="menu">
             <li
                 :class="{ active: categoryId === item.id }"
-                @mouseenter="categoryId = item.id"
+                @mouseenter="handleEnter(item.id)"
                 v-for="(item, index) in category.list"
                 :key="index"
             >
@@ -70,6 +74,7 @@ const goods = computed(() => {
                     font-size: 16px;
                 }
             }
+            &:hover,
             &.active {
                 background: @xtxColor;
             }
