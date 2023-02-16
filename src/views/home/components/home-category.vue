@@ -10,12 +10,12 @@ const goods = computed(() => {
     return itemObj?.goods
 })
 const handleEnter = (id: string) => {
-    if(!id) return
+    if (!id) return
     categoryId.value = id
 }
 </script>
 <template>
-    <div class="home-category" @mouseleave="categoryId = ''"> 
+    <div class="home-category" @mouseleave="categoryId = ''">
         <ul class="menu">
             <li
                 :class="{ active: categoryId === item.id }"
@@ -24,9 +24,21 @@ const handleEnter = (id: string) => {
                 :key="index"
             >
                 <RouterLink to="/">{{ item.name }}</RouterLink>
-                <RouterLink v-for="sub in item.children?.slice(0, 2)" :key="sub.id" to="/">
-                    {{ sub.name }}
-                </RouterLink>
+                <template v-if="item.children">
+                    <RouterLink v-for="sub in item.children?.slice(0, 2)" :key="sub.id" to="/">
+                        {{ sub.name }}
+                    </RouterLink>
+                </template>
+                <template v-else>
+                    <XtxSkeleton
+                        :width="60"
+                        :height="18"
+                        style="margin-right: 5px"
+                        bg="rgba(255,255,255,0.2)"
+                        animated
+                    />
+                    <XtxSkeleton :width="50" :height="18" bg="rgba(255,255,255,0.2)" animated />
+                </template>
             </li>
         </ul>
 
