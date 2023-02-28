@@ -7,7 +7,7 @@ home.getBannerList();
 <template>
   <div class="home-banner">
     <!-- 轮播图 -->
-    <XtxCarousel></XtxCarousel>
+    <XtxCarousel :slides="home.bannerList"></XtxCarousel>
   </div>
 </template>
 
@@ -20,11 +20,11 @@ home.getBannerList();
   top: 0;
   z-index: 98;
   background-color: pink;
-}
-:deep(.carousel-btn.prev) {
-  left: 270px !important;
-}
-:deep(.carousel-indicator) {
-  padding-left: 250px;
+  ::v-deep(.carousel-btn.prev) {
+    left: 270px !important;
+  }
+  :deep(.carousel-indicator) {
+    padding-left: 250px;
+  }
 }
 </style>
