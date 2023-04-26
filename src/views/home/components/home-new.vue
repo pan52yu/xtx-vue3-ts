@@ -21,7 +21,7 @@ onMounted(() => {
         <li v-for="item in home.newGoodList" :key="item.id">
           <RouterLink to="/">
             <img
-                :src="item.picture"
+                v-lazy="item.picture"
                 alt=""
             />
             <p class="name ellipsis">{{ item.name }}</p>
