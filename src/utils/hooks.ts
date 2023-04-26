@@ -2,7 +2,11 @@
 import {useIntersectionObserver} from '@vueuse/core'
 import {ref} from 'vue'
 
-// 封装通用的数据懒加载api
+/**
+ * @description: 封装通用的数据懒加载api
+ * @param apiFn 传入的api函数
+ * @return: 返回一个ref对象，通过ref对象可以获得组件实例
+ * */
 export function useLazyData(apiFn: () => void) {
     // 通过 ref 获得组件实例
     const target = ref(null)
