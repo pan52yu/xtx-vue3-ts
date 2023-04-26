@@ -39,3 +39,11 @@ export interface GoodItem {
     picture: string
     price: string
 }
+
+// 人气推荐
+export interface HotGoods {
+    id: string
+    picture: string
+    title: string
+    alt: string
+}

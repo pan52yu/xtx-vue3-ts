@@ -12,7 +12,7 @@
     <!--  新鲜好物  -->
     <home-new></home-new>
     <!--  人气推荐  -->
-
+    <home-hot></home-hot>
     <!--  热门品牌  -->
 
     <!--  居家  -->
@@ -23,6 +23,7 @@
 import HomeBanner from './components/home-banner.vue';
 import HomeCategory from './components/home-category.vue';
 import HomeNew from "@/views/home/components/home-new.vue";
+import HomeHot from "@/views/home/components/home-hot.vue";
 </script>
 
 <style></style>
