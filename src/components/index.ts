@@ -8,7 +8,7 @@ import DefaultImg from '@/assets/images/200.png'
 
 export default {
     install(app: App) {
-        app.component('XtxSkelecton', XtxSkelecton)
+        app.component('XtxSkeleton', XtxSkelecton)
         app.component('XtxCarousel', XtxCarousel)
         app.component('XtxMore', XtxMore)
 

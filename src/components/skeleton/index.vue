@@ -1,32 +1,32 @@
 <script lang="ts" setup name="XtxSkeleton">
 defineProps({
-  bg: {
-    type: String,
-    default: '#efefef',
-  },
-  width: {
-    type: Number,
-    required: true,
-  },
-  height: {
-    type: Number,
-    required: true,
-  },
-  animated: {
-    type: Boolean,
-    default: false,
-  },
-  fade: {
-    type: Boolean,
-    default: false,
-  },
+    bg: {
+        type: String,
+        default: '#efefef',
+    },
+    width: {
+        type: Number,
+        required: true,
+    },
+    height: {
+        type: Number,
+        required: true,
+    },
+    animated: {
+        type: Boolean,
+        default: false,
+    },
+    fade: {
+        type: Boolean,
+        default: false,
+    },
 })
 </script>
 <template>
   <div
-    class="xtx-skeleton"
-    :style="{ width: width + 'px', height: height + 'px' }"
-    :class="{ shan: animated, fade: fade }"
+      class="xtx-skeleton"
+      :style="{ width: width + 'px', height: height + 'px' }"
+      :class="{ shan: animated, fade: fade }"
   >
     <!-- 1 盒子-->
     <div class="block" :style="{ backgroundColor: bg }"></div>
@@ -40,12 +40,14 @@ defineProps({
   position: relative;
   overflow: hidden;
   vertical-align: middle;
+
   .block {
     width: 100%;
     height: 100%;
     border-radius: 2px;
   }
 }
+
 .shan {
   &::after {
     content: '';
@@ -54,15 +56,14 @@ defineProps({
     top: 0;
     width: 50%;
     height: 100%;
-    background: linear-gradient(
-      to left,
-      rgba(255, 255, 255, 0) 0,
-      rgba(255, 255, 255, 0.3) 50%,
-      rgba(255, 255, 255, 0) 100%
-    );
+    background: linear-gradient(to left,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%);
     transform: skewX(-45deg);
   }
 }
+
 @keyframes shan {
   0% {
     left: -100%;
@@ -75,6 +76,7 @@ defineProps({
 .fade {
   animation: fade 1s linear infinite alternate;
 }
+
 @keyframes fade {
   from {
     opacity: 0.2;
