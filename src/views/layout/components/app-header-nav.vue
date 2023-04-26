@@ -1,7 +1,7 @@
 <script lang="ts" setup name="AppHeaderNav">
 import useStore from '@/store';
 
-const {category} = useStore()
+const { category } = useStore()
 category.getAllCategory()
 </script>
 
@@ -10,21 +10,18 @@ category.getAllCategory()
         <li class="home">
             <RouterLink to="/">首页</RouterLink>
         </li>
-        <li @mouseenter="category.show(item.id)" @mouseleave="category.hide(item.id)"
-            v-for="(item,index) in category.list" :key="index">
+        <li @mouseenter="category.show(item.id)" @mouseleave="category.hide(item.id)" v-for="(item, index) in category.list"
+            :key="index">
             <router-link @click="category.hide(item.id)" :to="item.id ? `/category/${item.id}` : '/'">{{
-                    item.name
-                }}
+                item.name
+            }}
             </router-link>
             <!-- 弹层 -->
-            <div :class="{open: item.open}" class="layer" v-if="item.children">
+            <div :class="{ open: item.open }" class="layer" v-if="item.children">
                 <ul>
                     <li v-for="i in item.children" :key="i.id">
                         <router-link @click="category.hide(item.id)" :to="`/category/sub/${i.id}`">
-                            <img
-                                :src="i.picture"
-                                alt=""
-                            />
+                            <img :src="i.picture" alt="" />
                             <p>{{ i.name }}</p>
                         </router-link>
                     </li>
@@ -43,12 +40,12 @@ category.getAllCategory()
     z-index: 998;
 
     // > 子代选择器
-    > li {
+    >li {
         margin-right: 40px;
         width: 38px;
         text-align: center;
 
-        > a {
+        >a {
             font-size: 16px;
             line-height: 32px;
             height: 32px;
@@ -62,7 +59,7 @@ category.getAllCategory()
 
         // 新增样式
         &:hover {
-            > a {
+            >a {
                 color: @xtxColor;
                 border-bottom: 1px solid @xtxColor;
             }

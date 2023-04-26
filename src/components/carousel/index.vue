@@ -1,6 +1,6 @@
 <script lang="ts" setup name="XtxCarousel">
 import { BannerItem } from '@/types/data';
-import { ref } from 'vue';
+import {onMounted, onUnmounted, ref} from 'vue';
 // import { ref } from 'vue';
 
 /* 
@@ -27,6 +27,20 @@ const onNext = () => {
         active.value = 0
     }
 }
+
+// 定时器逻辑，自动播放
+let timer: NodeJS.Timeout
+const autoPlay = () => {
+    timer = setInterval(() => {
+        onNext()
+    }, 3000)
+}
+onMounted(() => {
+    autoPlay()
+})
+onUnmounted(() => {
+    clearInterval(timer)
+})
 </script>
 
 <template>

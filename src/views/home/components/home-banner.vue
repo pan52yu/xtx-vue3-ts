@@ -19,7 +19,7 @@ home.getBannerList()
     left: 0;
     top: 0;
     z-index: 98;
-    background-color: pink;
+    //background-color: pink;
     ::v-deep(.carousel-btn.prev) {
         left: 270px !important;
     }
