@@ -25,8 +25,17 @@ export type CategoryItem = {
 
 // 轮播图类型
 export type BannerItem = {
-  hrefUrl: string
-  id: string
-  imgUrl: string
-  type: string
+    hrefUrl: string
+    id: string
+    imgUrl: string
+    type: string
+}
+
+// 新鲜好物
+export interface GoodItem {
+    desc: string
+    id: string
+    name: string
+    picture: string
+    price: string
 }

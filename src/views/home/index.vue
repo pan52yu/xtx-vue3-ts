@@ -10,12 +10,7 @@
       </div>
     </div>
     <!--  新鲜好物  -->
-    <home-panel title="新鲜好物" sub-title="新鲜出炉 品质靠谱">
-      <template #right>
-        <XtxMore path="/"></XtxMore>
-      </template>
-      新鲜好物 品质生活
-    </home-panel>
+    <home-new></home-new>
     <!--  人气推荐  -->
 
     <!--  热门品牌  -->
@@ -27,7 +22,7 @@
 <script lang="ts" setup name="Home">
 import HomeBanner from './components/home-banner.vue';
 import HomeCategory from './components/home-category.vue';
-import HomePanel from "@/views/home/components/home-panel.vue";
+import HomeNew from "@/views/home/components/home-new.vue";
 </script>
 
 <style></style>
