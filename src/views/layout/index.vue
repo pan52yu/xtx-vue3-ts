@@ -3,6 +3,10 @@ import AppFooter from '@/views/layout/components/app-footer.vue';
 import AppHeader from '@/views/layout/components/app-header.vue';
 import AppTopnav from '@/views/layout/components/app-topnav.vue';
 import AppHeaderSticky from "@/views/layout/components/app-header-sticky.vue";
+import useStore from '@/store';
+
+const {category} = useStore()
+category.getAllCategory()
 </script>
 <template>
   <app-topnav></app-topnav>

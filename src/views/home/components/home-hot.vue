@@ -2,12 +2,16 @@
 <script lang="ts" setup name="HomeHot">
 import useStore from '@/store'
 import HomePanel from './home-panel.vue'
+import {useLazyData} from "@/utils/hooks";
 
 const {home} = useStore()
-home.getHotList()
+
+const target = useLazyData(() => {
+    home.getHotList()
+})
 </script>
 <template>
-  <HomePanel title="人气推荐" sub-title="人气爆款 不容错过">
+  <HomePanel ref="target" title="人气推荐" sub-title="人气爆款 不容错过">
     <ul ref="pannel" class="goods-list">
       <li v-for="item in home.hotGoodList" :key="item.id">
         <RouterLink to="/">
