@@ -1,6 +1,6 @@
 // 自定义一些通用的compositions api
 import {useIntersectionObserver} from '@vueuse/core'
-import {ref} from 'vue'
+import {onBeforeUnmount, onMounted, ref} from 'vue'
 
 /**
  * @description: 封装通用的数据懒加载api
@@ -24,4 +24,25 @@ export function useLazyData(apiFn: () => void) {
         }
     )
     return target
+}
+
+/**
+ * @description: 封装通用的滚动条api
+ * @return: 返回滚动条的距离
+ */
+export function useScrollY() {
+    const y = ref(0)
+    const onScroll = () => {
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+        y.value = scrollTop
+    }
+
+    // 监听滚动条的滚动 获取滚动的距离 大于等于78 就设置78类
+    onMounted(() => {
+        window.addEventListener('scroll', onScroll)
+    })
+    onBeforeUnmount(() => {
+        window.removeEventListener('scroll', onScroll)
+    })
+    return y
 }
