@@ -1,10 +1,12 @@
-// 统一的注册所有的全局组件
-import XtxSkeleton from "@/components/skeleton/index.vue";
-import XtxCarousel from "./carousel/index.vue";
-import { App } from "vue";
+import type {App} from 'vue'
+import XtxSkelecton from './skeleton/index.vue'
+import XtxCarousel from './carousel/index.vue'
+import XtxMore from './more/index.vue'
+
 export default {
-  install(app: App) {
-    app.component("XtxSkeleton", XtxSkeleton);
-    app.component("XtxCarousel", XtxCarousel);
-  },
-};
+    install(app: App) {
+        app.component('XtxSkelecton', XtxSkelecton)
+        app.component('XtxCarousel', XtxCarousel)
+        app.component('XtxMore', XtxMore)
+    },
+}
