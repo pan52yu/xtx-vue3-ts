@@ -11,7 +11,8 @@ defineProps({
     required: true,
   },
 }); */
-const { slides } = defineProps<{
+// 如果解构想要响应式，需要在vite.config.ts中配置
+const { slides = [] } = defineProps<{
     slides: BannerItem[]
 }>()
 const active = ref(0)
@@ -29,9 +30,9 @@ const onNext = () => {
 }
 
 // 定时器逻辑，自动播放
-let timer: NodeJS.Timeout
+let timer = -1
 const autoPlay = () => {
-    timer = setInterval(() => {
+    timer = window.setInterval(() => {
         onNext()
     }, 3000)
 }

@@ -6,6 +6,7 @@ import vueSetupExtend from "vite-plugin-vue-setup-extend";
 export default defineConfig({
   plugins: [
     vue({
+      // 响应式配置
       reactivityTransform: true,
     }),
     vueSetupExtend(),
