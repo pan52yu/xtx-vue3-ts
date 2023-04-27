@@ -26,7 +26,7 @@ const target = useLazyData(() => {
       </template>
       <div class="box">
         <RouterLink class="cover" to="/">
-          <img v-lazy="item.picture" alt=""/>
+          <img v-lazy="item.picture" alt="" :style="{objectFit: 'cover'}"/>
           <strong class="label">
             <span>{{ item.name }}</span>
             <span>{{ item.saleInfo.slice(0, 4) }}</span>
