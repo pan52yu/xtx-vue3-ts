@@ -38,6 +38,7 @@ const position = computed(() => {
            backgroundPosition: `${-position.x * 2}px ${-position.y * 2}px`,
         }
       ]"
+        v-show="!isOutside"
     ></div>
     <!--  用户hover的区域  -->
     <div ref="target" class="middle">
