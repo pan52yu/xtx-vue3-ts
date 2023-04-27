@@ -83,7 +83,6 @@ export type HomeProduct = {
 }
 
 // 最新专题
-
 export type Special = {
     creator: string
     isDelete: number
@@ -99,4 +98,12 @@ export type Special = {
     collectNum: number
     viewNum: number
     replyNum: number
+}
+
+// 顶级分类类型
+export type TopCategory = {
+    id: string
+    name: string
+    picture: string
+    children: CategoryItem[]
 }

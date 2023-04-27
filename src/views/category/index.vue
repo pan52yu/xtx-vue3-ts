@@ -1,23 +1,26 @@
-<!-- 分类组件 -->
-<template>
-  <div class="category">
-    <XtxBread>
-      <XtxBreadItem to="/">首页</XtxBreadItem>
-      <XtxBreadItem>美食</XtxBreadItem>
-    </XtxBread>
-    分类组件{{ route.params }}
-  </div>
-</template>
+<script lang="ts" setup name="TopCategory">
+import useStore from '@/store'
+import {useRoute} from 'vue-router'
+import {watchEffect} from "vue";
 
-<script lang="ts" name="TopCategory" setup>
-import {useRoute} from "vue-router";
-import {watch} from "vue";
-
+const {category} = useStore()
 const route = useRoute()
-
-watch(() => route.path, (val) => {
-    console.log("🚀 ~ file:index line:13 >>>", val)
+watchEffect(() => {
+    // 只在一级类目发请求
+    if (route.fullPath === `/category/${route.params.id}`) {
+        category.getTopCategory(route.params.id as string)
+    }
 })
 </script>
 
-<style></style>
+<template>
+  <div class="top-category">
+    <div class="container">
+      <!-- 渲染面包屑导航 -->
+      <XtxBread>
+        <XtxBreadItem to="/">首页</XtxBreadItem>
+        <XtxBreadItem>{{ category.topCategory.name }}</XtxBreadItem>
+      </XtxBread>
+    </div>
+  </div>
+</template>
