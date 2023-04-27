@@ -3,6 +3,7 @@ import useStore from '@/store'
 import {useRoute} from 'vue-router'
 import {watchEffect} from "vue";
 import {storeToRefs} from "pinia";
+import GoodsItem from "@/views/category/components/goods-item.vue";
 
 const {
     category, home
@@ -41,6 +42,18 @@ const {topCategory} = storeToRefs(category)
             </a>
           </li>
         </ul>
+      </div>
+      <!-- 分类关联商品 -->
+      <div class="ref-goods" v-for="item in topCategory.children">
+        <div class="head">
+          <h3>- {{ item.name }} -</h3>
+          <p class="tag">嘿嘿嘿 我是描述</p>
+          <XtxMore/>
+        </div>
+        <div class="body">
+          <GoodsItem v-for="goodsItem in item.goods" :key="goodsItem.id"
+                     :goods="goodsItem"/>
+        </div>
       </div>
     </div>
   </div>
@@ -89,6 +102,35 @@ const {topCategory} = storeToRefs(category)
         }
       }
     }
+  }
+}
+
+.ref-goods {
+  background-color: #fff;
+  margin-top: 20px;
+  position: relative;
+
+  .head {
+    .xtx-more {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    .tag {
+      text-align: center;
+      color: #999;
+      font-size: 20px;
+      position: relative;
+      top: -20px;
+    }
+  }
+
+  .body {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding: 0 65px 30px;
   }
 }
 </style>
