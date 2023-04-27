@@ -25,8 +25,72 @@ const {subCategory} = storeToRefs(category)
         </XtxBreadItem>
         <XtxBreadItem>{{ subCategory.name }}</XtxBreadItem>
       </XtxBread>
+
+      <!-- 筛选区 -->
+      <div class="sub-filter">
+        <div class="item">
+          <!-- 品牌独立渲染 -->
+          <div class="head">品牌：</div>
+          <div class="body">
+            <a href="javascript:;">全部</a>
+            <a
+                href="javascript:;"
+                v-for="item in subCategory.brands"
+                :key="item.id"
+            >
+              {{ item.name }}
+            </a>
+          </div>
+        </div>
+        <div
+            class="item"
+            v-for="item in subCategory.saleProperties"
+            :key="item.id"
+        >
+          <div class="head">{{ item.name }}：</div>
+          <div class="body">
+            <a href="javascript:;">全部</a>
+            <a
+                href="javascript:;"
+                v-for="sub in item.properties"
+                :key="sub.id"
+            >{{ sub.name }}</a
+            >
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
+<style scoped lang="less">
+// 筛选区
+.sub-filter {
+  background: #fff;
+  padding: 25px;
 
-<style scoped lang="less"></style>
+  .item {
+    display: flex;
+    line-height: 40px;
+
+    .head {
+      width: 80px;
+      color: #999;
+    }
+
+    .body {
+      flex: 1;
+
+      a {
+        margin-right: 36px;
+        transition: all 0.3s;
+        display: inline-block;
+
+        &.active,
+        &:hover {
+          color: @xtxColor;
+        }
+      }
+    }
+  }
+}
+</style>
