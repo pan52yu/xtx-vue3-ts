@@ -3,6 +3,7 @@
 import useStore from '@/store'
 import HomePanel from './home-panel.vue'
 import {useLazyData} from "@/utils/hooks";
+import HomeSkeleton from "@/views/home/components/home-skeleton.vue";
 
 const {home} = useStore()
 
@@ -12,7 +13,7 @@ const target = useLazyData(() => {
 </script>
 <template>
   <HomePanel ref="target" title="人气推荐" sub-title="人气爆款 不容错过">
-    <ul ref="pannel" class="goods-list">
+    <ul ref="pannel" class="goods-list" v-if="home.hotGoodList.length > 0">
       <li v-for="item in home.hotGoodList" :key="item.id">
         <RouterLink to="/">
           <img v-lazy="item.picture" alt=""/>
@@ -21,6 +22,7 @@ const target = useLazyData(() => {
         </RouterLink>
       </li>
     </ul>
+    <home-skeleton v-else></home-skeleton>
   </HomePanel>
 </template>
 
