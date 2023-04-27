@@ -3,6 +3,7 @@ import useStore from '@/store'
 import {storeToRefs} from 'pinia'
 import {watchEffect} from 'vue'
 import {useRoute} from 'vue-router'
+import GoodsImage from "@/views/goods/components/goods-image.vue";
 
 const {goods} = useStore()
 const route = useRoute()
@@ -34,7 +35,12 @@ const {info} = storeToRefs(goods)
           <XtxBreadItem>{{ info.name }}</XtxBreadItem>
         </XtxBread>
         <!-- 商品信息 -->
-        <div class="goods-info"></div>
+        <div class="goods-info">
+          <div class="media">
+            <GoodsImage :images="info.mainPictures"></GoodsImage>
+          </div>
+          <div class="spec"></div>
+        </div>
         <!-- 商品详情 -->
         <div class="goods-footer">
           <div class="goods-article">
@@ -71,6 +77,18 @@ const {info} = storeToRefs(goods)
 .goods-info {
   min-height: 600px;
   background: #fff;
+  display: flex;
+
+  .media {
+    width: 580px;
+    height: 600px;
+    padding: 30px 50px;
+  }
+
+  .spec {
+    flex: 1;
+    padding: 30px 30px 30px 0;
+  }
 }
 
 .goods-footer {
