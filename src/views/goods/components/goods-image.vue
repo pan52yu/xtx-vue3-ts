@@ -20,15 +20,25 @@ const position = computed(() => {
     if (y <= 0) y = 0
     if (y >= 200) y = 200
     return {
-        x: `${x}px`,
-        y: `${y}px`
+        x: `${x}`,
+        y: `${y}`
     }
 })
 </script>
 <template>
   <div class="goods-image">
     <!--  大图区域  -->
-    <div v-show="!isOutside" class="large" :style="[{backgroundImage:`url(${images[active]})`}]"></div>
+    <div
+        class="large"
+        :style="[
+        {
+          backgroundImage: `url(${images[active]})`,
+        },
+        {
+           backgroundPosition: `${-position.x * 2}px ${-position.y * 2}px`,
+        }
+      ]"
+    ></div>
     <!--  用户hover的区域  -->
     <div ref="target" class="middle">
       <img
@@ -37,7 +47,7 @@ const position = computed(() => {
       />
       <!--   遮罩层   -->
       <div v-show="!isOutside" class="layer"
-           :style="{left: position.x,top: position.y}"></div>
+           :style="{left: `${position.x}px`,top: `${position.y}px`}"></div>
     </div>
     <ul class="small">
       <li v-for="(item,index) in images" :key="index" :class="{ active: index === active }"
