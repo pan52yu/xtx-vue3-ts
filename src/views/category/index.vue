@@ -1,6 +1,12 @@
 <!-- 分类组件 -->
 <template>
-    <div class="category">分类组件{{ route.params }}</div>
+  <div class="category">
+    <XtxBread>
+      <XtxBreadItem to="/">首页</XtxBreadItem>
+      <XtxBreadItem>美食</XtxBreadItem>
+    </XtxBread>
+    分类组件{{ route.params }}
+  </div>
 </template>
 
 <script lang="ts" name="TopCategory" setup>

@@ -3,6 +3,8 @@ import type {App} from 'vue'
 import XtxSkelecton from './skeleton/index.vue'
 import XtxCarousel from './carousel/index.vue'
 import XtxMore from './more/index.vue'
+import Bread from './Bread/index.vue'
+import BreadItem from './Bread/Item.vue'
 import {useIntersectionObserver} from "@vueuse/core";
 import DefaultImg from '@/assets/images/200.png'
 
@@ -11,7 +13,9 @@ export default {
         app.component('XtxSkeleton', XtxSkelecton)
         app.component('XtxCarousel', XtxCarousel)
         app.component('XtxMore', XtxMore)
-
+        app.component('XtxBread', Bread)
+        app.component('XtxBreadItem', BreadItem)
+        
         //     全局指令
         //   懒加载图片 <img v-lazy="imgUrl" alt="">
         app.directive("lazy", {
