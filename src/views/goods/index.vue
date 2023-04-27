@@ -8,7 +8,9 @@ const {goods} = useStore()
 const route = useRoute()
 watchEffect(() => {
     const id = route.params.id as string
-    goods.getGoodsInfo(id)
+    if (id && route.fullPath === `/goods/${id}`) {
+        goods.getGoodsInfo(id)
+    }
 })
 
 const {info} = storeToRefs(goods)
