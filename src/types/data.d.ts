@@ -135,4 +135,5 @@ export type SubCategory = {
         place: string
     }[]
     saleProperties: SaleProperty[]
+    goods: CategoryGoods[]
 }
