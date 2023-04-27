@@ -19,19 +19,21 @@ const target = useLazyData(() => {
         <XtxMore path="/"/>
       </template>
       <!-- 面板内容 -->
-      <ul class="goods-list" v-if="home.newGoodList.length > 0">
-        <li v-for="item in home.newGoodList" :key="item.id">
-          <RouterLink to="/">
-            <img
-                v-lazy="item.picture"
-                alt=""
-            />
-            <p class="name ellipsis">{{ item.name }}</p>
-            <p class="price">&yen;{{ item.price }}</p>
-          </RouterLink>
-        </li>
-      </ul>
-      <home-skeleton v-else></home-skeleton>
+      <transition name="fade">
+        <ul class="goods-list" v-if="home.newGoodList.length > 0">
+          <li v-for="item in home.newGoodList" :key="item.id">
+            <RouterLink to="/">
+              <img
+                  v-lazy="item.picture"
+                  alt=""
+              />
+              <p class="name ellipsis">{{ item.name }}</p>
+              <p class="price">&yen;{{ item.price }}</p>
+            </RouterLink>
+          </li>
+        </ul>
+        <home-skeleton v-else></home-skeleton>
+      </transition>
     </HomePanel>
   </div>
 </template>
