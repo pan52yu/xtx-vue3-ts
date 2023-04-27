@@ -1,4 +1,4 @@
-<script lang="ts" setup name="GoodsImage">
+<script lang="ts" name="GoodsImage" setup>
 import {computed, ref} from "vue";
 import {useMouseInElement} from "@vueuse/core";
 
@@ -29,16 +29,14 @@ const position = computed(() => {
   <div class="goods-image">
     <!--  大图区域  -->
     <div
-        class="large"
-        :style="[
-        {
-          backgroundImage: `url(${images[active]})`,
-        },
-        {
-           backgroundPosition: `${-position.x * 2}px ${-position.y * 2}px`,
-        }
-      ]"
         v-show="!isOutside"
+        :style="[
+            {
+              backgroundImage: `url(${images[active]})`,
+              backgroundPosition: `${-position.x * 2}px ${-position.y * 2}px`,
+            }
+        ]"
+        class="large"
     ></div>
     <!--  用户hover的区域  -->
     <div ref="target" class="middle">
@@ -47,8 +45,9 @@ const position = computed(() => {
           alt=""
       />
       <!--   遮罩层   -->
-      <div v-show="!isOutside" class="layer"
-           :style="{left: `${position.x}px`,top: `${position.y}px`}"></div>
+      <div v-show="!isOutside"
+           :style="{left: `${position.x}px`,top: `${position.y}px`}"
+           class="layer"></div>
     </div>
     <ul class="small">
       <li v-for="(item,index) in images" :key="index" :class="{ active: index === active }"
@@ -63,7 +62,7 @@ const position = computed(() => {
   </div>
 </template>
 
-<style scoped lang="less">
+<style lang="less" scoped>
 .goods-image {
   width: 480px;
   height: 400px;
