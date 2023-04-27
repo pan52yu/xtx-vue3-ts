@@ -47,3 +47,15 @@ export interface HotGoods {
     title: string
     alt: string
 }
+
+// 热门品牌
+export type Brand = {
+    id: string
+    name: string
+    nameEn: string
+    logo: string
+    picture: string
+    type?: any
+    desc: string
+    place: string
+}

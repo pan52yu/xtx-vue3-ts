@@ -14,7 +14,7 @@
     <!--  人气推荐  -->
     <home-hot></home-hot>
     <!--  热门品牌  -->
-
+    <home-brand></home-brand>
     <!--  居家  -->
   </div>
 </template>
@@ -24,6 +24,7 @@ import HomeBanner from './components/home-banner.vue';
 import HomeCategory from './components/home-category.vue';
 import HomeNew from "@/views/home/components/home-new.vue";
 import HomeHot from "@/views/home/components/home-hot.vue";
+import HomeBrand from "@/views/home/components/home-brand.vue";
 </script>
 
 <style></style>

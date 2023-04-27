@@ -12,7 +12,9 @@
     </div>
   </div>
 </template>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+
+</script>
 <style scoped lang="less">
 .home-skeleton {
   width: 1240px;
