@@ -1,4 +1,4 @@
-import {ApiRes, BannerItem, Brand, GoodItem, HotGoods} from '@/types/data'
+import {ApiRes, BannerItem, Brand, GoodItem, HomeProduct, HotGoods} from '@/types/data'
 import request from '@/utils/request'
 import {defineStore} from 'pinia'
 
@@ -10,6 +10,7 @@ export default defineStore('home', {
         hotGoodList: [] as HotGoods[],
         // 品牌数据
         brandList: [] as Brand[],
+        productList: [] as HomeProduct[],
     }),
     actions: {
         async getBannerList() {
@@ -27,6 +28,10 @@ export default defineStore('home', {
         async getBrandList() {
             const res = await request.get<ApiRes<Brand[]>>('/home/brand')
             this.brandList = res.data.result
+        },
+        async getProductList() {
+            const res = await request.get<ApiRes<HomeProduct[]>>('/home/goods')
+            this.productList = res.data.result
         },
     },
 })
