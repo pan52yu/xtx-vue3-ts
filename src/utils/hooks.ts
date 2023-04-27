@@ -21,6 +21,11 @@ export function useLazyData(apiFn: () => void) {
                 stop()
                 apiFn()
             }
+        },
+        {
+            // threshold 容器和可视区交叉的占比（进入的面积/容器完整面积） 取值，0-1 之间，
+            // 默认比0大，所以需要滚动较多才能触发进入可视区域事件。  阈值   (进入的面积/容器完整面积)
+            threshold: 0
         }
     )
     return target
