@@ -1,22 +1,22 @@
 <script lang="ts" setup name="Goods">
-import useStore from '@/store'
-import {storeToRefs} from 'pinia'
-import {watchEffect} from 'vue'
-import {useRoute} from 'vue-router'
-import GoodsImage from "@/views/goods/components/goods-image.vue";
-
-const {goods} = useStore()
+import useStore from "@/store"
+import { storeToRefs } from "pinia"
+import { watchEffect } from "vue"
+import { useRoute } from "vue-router"
+import GoodsImage from "@/views/goods/components/goods-image.vue"
+import GoodsSales from "./components/goods-sales.vue"
+import GoodsName from "./components/goods-name.vue"
+const { goods } = useStore()
 const route = useRoute()
 watchEffect(() => {
-    const id = route.params.id as string
-    if (id && route.fullPath === `/goods/${id}`) {
-        goods.getGoodsInfo(id)
-    }
+  const id = route.params.id as string
+  if (id && route.fullPath === `/goods/${id}`) {
+    goods.getGoodsInfo(id)
+  }
 })
 
-const {info} = storeToRefs(goods)
+const { info } = storeToRefs(goods)
 </script>
-
 
 <template>
   <div class="xtx-goods-page">
@@ -38,8 +38,11 @@ const {info} = storeToRefs(goods)
         <div class="goods-info">
           <div class="media">
             <GoodsImage :images="info.mainPictures"></GoodsImage>
+            <GoodsSales></GoodsSales>
           </div>
-          <div class="spec"></div>
+          <div class="spec">
+            <GoodsName :goods="info"></GoodsName>
+          </div>
         </div>
         <!-- 商品详情 -->
         <div class="goods-footer">
