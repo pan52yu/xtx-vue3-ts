@@ -1,5 +1,5 @@
 <script lang="ts" setup name="XtxCity">
-import { onMounted, ref } from "vue"
+import { onMounted, ref, watch } from "vue"
 import { onClickOutside } from "@vueuse/core"
 
 // 城市列表类型
@@ -17,12 +17,13 @@ const toggle = () => {
 }
 const target = ref(null)
 onClickOutside(target, (e) => {
-  // console.log(e)
   // 当点击target元素的外面的时候，就会触发
   active.value = false
 })
 
 const cityList = ref<AreaList[]>([])
+// 缓存的数据
+const cacheList = ref<AreaList[]>([])
 
 // 选择城市
 const changeResult = ref({
@@ -37,6 +38,7 @@ const changeResult = ref({
 const getCityList = async () => {
   const res = await axios.get<AreaList[]>("https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tuxian/area.json")
   cityList.value = res.data
+  cacheList.value = res.data
 }
 
 const selectCity = (city: AreaList) => {
@@ -60,13 +62,19 @@ const selectCity = (city: AreaList) => {
     active.value = false
   }
 }
-
+// 监听关闭弹窗的处理，恢复数据
+watch(active, (value) => {
+  // 当关闭active的时候，需要回复数据
+  if (!value) {
+    cityList.value = cacheList.value
+  }
+})
 onMounted(() => {
   getCityList()
 })
 </script>
 <template>
-  <div class="xtx-city">
+  <div class="xtx-city" ref="target">
     <div class="select" @click="toggle" :class="{ active: active }">
       <span class="placeholder">请选择配送地址</span>
       <span class="value"></span>
