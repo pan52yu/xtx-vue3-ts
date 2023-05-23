@@ -2,6 +2,22 @@
 import { onMounted, ref, watch } from "vue"
 import { onClickOutside } from "@vueuse/core"
 
+export type CityResult = {
+  provinceCode: string
+  provinceName: string
+  cityCode: string
+  cityName: string
+  countyCode: string
+  countyName: string
+}
+
+defineProps<{
+  userAddress?: string
+}>()
+
+const emit = defineEmits<{
+  (e: "changValue", value: CityResult): void
+}>()
 // 城市列表类型
 type AreaList = {
   code: string
@@ -26,7 +42,7 @@ const cityList = ref<AreaList[]>([])
 const cacheList = ref<AreaList[]>([])
 
 // 选择城市
-const changeResult = ref({
+const changeResult = ref<CityResult>({
   provinceCode: "",
   provinceName: "",
   cityCode: "",
@@ -60,6 +76,9 @@ const selectCity = (city: AreaList) => {
     changeResult.value.countyCode = city.code
     // 关闭弹窗
     active.value = false
+
+    // 给父组件传递数据
+    emit("changValue", changeResult.value)
   }
 }
 // 监听关闭弹窗的处理，恢复数据
@@ -76,8 +95,8 @@ onMounted(() => {
 <template>
   <div class="xtx-city" ref="target">
     <div class="select" @click="toggle" :class="{ active: active }">
-      <span class="placeholder">请选择配送地址</span>
-      <span class="value"></span>
+      <span class="value" v-if="userAddress">{{ userAddress }}</span>
+      <span class="placeholder" v-else>请选择配送地址</span>
       <i class="iconfont icon-angle-down"></i>
     </div>
     <div class="option" v-show="active">
