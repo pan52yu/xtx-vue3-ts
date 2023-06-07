@@ -6,15 +6,17 @@ export type AreaList = {
     areaList: AreaList[]
 }
 
-
+// 商品的规格的值的类型
+export type SpecValue = {
+    desc: string
+    name: string
+    picture: string
+    selected: boolean
+}
 // 商品的规格类型
 export type Spec = {
     name: string
-    values: {
-        desc: string
-        name: string
-        picture: string
-    }[]
+    values: SpecValue[]
 }
 // 商品模块的类型声明
 export type GoodsInfo = {

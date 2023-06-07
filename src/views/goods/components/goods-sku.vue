@@ -1,9 +1,26 @@
 <script lang="ts" name="GoodsSku" setup>
-import {GoodsInfo} from '@/types/goods'
+import {GoodsInfo, Spec, SpecValue} from '@/types/goods'
 
 defineProps<{
     goods: GoodsInfo
 }>()
+
+/**
+ * 选中规格
+ * @param item
+ * @param sub
+ */
+const changeSelected = (item: Spec, sub: SpecValue) => {
+    if (sub.selected) {
+        // 如果已经是选中了，取消选中
+        sub.selected = false
+    } else {
+        // 把同级所有(包括sub)的全部取消选中
+        item.values.forEach((v) => (v.selected = false))
+        // 让sub选中
+        sub.selected = true
+    }
+}
 </script>
 <template>
     <div class="goods-sku">
@@ -11,8 +28,12 @@ defineProps<{
             <dt>{{ item.name }}</dt>
             <dd>
                 <template v-for="sub in item.values" :key="sub.name">
-                    <img v-if="sub.picture" :src="sub.picture" :title="sub.name" alt=""/>
-                    <span v-else>{{ sub.name }}</span>
+                    <img v-if="sub.picture" :class="{ selected: sub.selected }" :src="sub.picture" :title="sub.name"
+                         alt=""
+                         @click="changeSelected(item,sub)"/>
+                    <span v-else :class="{ selected: sub.selected }" @click="changeSelected(item,sub)">{{
+                            sub.name
+                        }}</span>
                 </template>
             </dd>
         </dl>
