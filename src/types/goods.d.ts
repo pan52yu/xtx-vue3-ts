@@ -18,6 +18,18 @@ export type Spec = {
     name: string
     values: SpecValue[]
 }
+// 商品的sku
+export type Sku = {
+    id: string
+    inventory: number
+    oldPrice: string
+    price: string
+    skuCode: string
+    specs: {
+        name: string
+        valueName: string
+    }[]
+}
 // 商品模块的类型声明
 export type GoodsInfo = {
     id: string
@@ -43,5 +55,6 @@ export type GoodsInfo = {
         id: string
         name: string
     }[]
-    specs: Spec[]
+    specs: Spec[],
+    skus: Sku[]
 }
