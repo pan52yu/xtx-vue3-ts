@@ -12,6 +12,7 @@ const props = defineProps<{
  * @param sub
  */
 const changeSelected = (item: Spec, sub: SpecValue) => {
+    if (sub.disabled) return
     if (sub.selected) {
         // 如果已经是选中了，取消选中
         sub.selected = false
@@ -33,11 +34,9 @@ const getPathMap = () => {
     } = {}
     // 1. 过滤掉库存为0的sku
     const skus = props.goods.skus.filter((item) => item.inventory > 0)
-    // console.log(skus)
     // 2. 遍历有效的sku,获取sku的幂集
     skus.forEach((item) => {
         const arr = item.specs.map((sub) => sub.valueName)
-        // console.log(arr)
         // 3. 调用powerSet获取幂集
         const powerSet = bwPowerSet(arr)
         // 4. 把这些powerSet合并到一个路径字典中
@@ -57,7 +56,18 @@ const getPathMap = () => {
     return pathMap
 }
 
-console.log(getPathMap())
+const updateDisabledStatus = () => {
+    // 1. 遍历所有的规格值
+    props.goods.specs.forEach((item) => {
+        item.values.forEach((sub) => {
+            // 2. 判断当前规格值是否在路径字典中
+            const key = sub.name
+            sub.disabled = !(key in pathMap);
+        })
+    })
+}
+const pathMap = getPathMap()
+updateDisabledStatus()
 </script>
 <template>
     <div class="goods-sku">
@@ -65,10 +75,12 @@ console.log(getPathMap())
             <dt>{{ item.name }}</dt>
             <dd>
                 <template v-for="sub in item.values" :key="sub.name">
-                    <img v-if="sub.picture" :class="{ selected: sub.selected }" :src="sub.picture" :title="sub.name"
+                    <img v-if="sub.picture" :class="{ selected: sub.selected,disabled: sub.disabled }"
+                         :src="sub.picture" :title="sub.name"
                          alt=""
                          @click="changeSelected(item,sub)"/>
-                    <span v-else :class="{ selected: sub.selected }" @click="changeSelected(item,sub)">{{
+                    <span v-else :class="{ selected: sub.selected,disabled: sub.disabled }"
+                          @click="changeSelected(item,sub)">{{
                             sub.name
                         }}</span>
                 </template>

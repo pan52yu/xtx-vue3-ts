@@ -12,6 +12,7 @@ export type SpecValue = {
     name: string
     picture: string
     selected: boolean
+    disabled: boolean
 }
 // 商品的规格类型
 export type Spec = {
