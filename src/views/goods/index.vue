@@ -62,6 +62,8 @@ const changeSku = (skuId: string) => {
                         <GoodsName :goods="info"></GoodsName>
                         <!-- 规格组件 -->
                         <GoodsSku :goods="info" @changeSku="changeSku"/>
+                        <!-- 数字选择器 -->
+                        <XtxNumbox></XtxNumbox>
                     </div>
                 </div>
                 <!-- 商品详情 -->
