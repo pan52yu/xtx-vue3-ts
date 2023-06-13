@@ -1,7 +1,7 @@
 <script lang="ts" name="Goods" setup>
 import useStore from "@/store"
 import {storeToRefs} from "pinia"
-import {watchEffect} from "vue"
+import {ref, watchEffect} from "vue"
 import {useRoute} from "vue-router"
 import GoodsImage from "@/views/goods/components/goods-image.vue"
 import GoodsSales from "./components/goods-sales.vue"
@@ -34,6 +34,8 @@ const changeSku = (skuId: string) => {
         info.value.oldPrice = sku.oldPrice
     }
 }
+
+const count = ref(1)
 </script>
 
 <template>
@@ -63,7 +65,7 @@ const changeSku = (skuId: string) => {
                         <!-- 规格组件 -->
                         <GoodsSku :goods="info" @changeSku="changeSku"/>
                         <!-- 数字选择器 -->
-                        <XtxNumbox></XtxNumbox>
+                        <XtxNumbox v-model="count"></XtxNumbox>
                     </div>
                 </div>
                 <!-- 商品详情 -->
