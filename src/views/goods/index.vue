@@ -66,6 +66,8 @@ const count = ref(1)
                         <GoodsSku :goods="info" @changeSku="changeSku"/>
                         <!-- 数字选择器 -->
                         <XtxNumbox v-model="count"></XtxNumbox>
+                        <!-- 加入购物车 -->
+                        <xtx-button style="margin-top: 20px;" type="primary">加入购物车</xtx-button>
                     </div>
                 </div>
                 <!-- 商品详情 -->
