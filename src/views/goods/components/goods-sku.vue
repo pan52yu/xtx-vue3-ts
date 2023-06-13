@@ -6,6 +6,8 @@ const props = defineProps<{
     goods: GoodsInfo
 }>()
 
+const SPLIT_STR = '+'
+
 /**
  * 选中规格
  * @param item
@@ -22,6 +24,7 @@ const changeSelected = (item: Spec, sub: SpecValue) => {
         // 让sub选中
         sub.selected = true
     }
+    updateDisabledStatus()
 }
 
 
@@ -41,7 +44,7 @@ const getPathMap = () => {
         const powerSet = bwPowerSet(arr)
         // 4. 把这些powerSet合并到一个路径字典中
         powerSet.forEach((sub) => {
-            const key = sub.join('★')
+            const key = sub.join(SPLIT_STR)
             // 5. 判断pathMap中有没有key
             if (key in pathMap) {
                 // 6. 存在
@@ -56,16 +59,33 @@ const getPathMap = () => {
     return pathMap
 }
 
+// 更新按钮的禁用状态
 const updateDisabledStatus = () => {
+    const selectedSpec = getSelectedSpec()
     // 1. 遍历所有的规格值
-    props.goods.specs.forEach((item) => {
-        item.values.forEach((sub) => {
-            // 2. 判断当前规格值是否在路径字典中
-            const key = sub.name
+    props.goods.specs.forEach((spec, index) => {
+        spec.values.forEach((sub) => {
+            // 1.1 把当前规格值替换到选中规格中
+            const tempArr = [...selectedSpec]
+            tempArr[index] = sub.name
+            // 1.2 把数组转成字符串 得到的是组合的key
+            const key = tempArr.filter(Boolean).join(SPLIT_STR)
+            // 1.3 是否在路径字典中 不存在就禁用
             sub.disabled = !(key in pathMap);
         })
     })
 }
+
+// 获取当前的选中规格
+const getSelectedSpec = () => {
+    const arr: string[] = []
+    props.goods.specs.forEach((item, index) => {
+        const temp = item.values.find((sub) => sub.selected)
+        arr[index] = temp ? temp.name : ''
+    })
+    return arr
+}
+
 const pathMap = getPathMap()
 updateDisabledStatus()
 </script>

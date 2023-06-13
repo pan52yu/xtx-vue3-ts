@@ -8,10 +8,15 @@ export type AreaList = {
 
 // 商品的规格的值的类型
 export type SpecValue = {
+    // 描述
     desc: string
+    // 名称
     name: string
+    // 图片
     picture: string
+    // 是否选中
     selected: boolean
+    // 是否禁用
     disabled: boolean
 }
 // 商品的规格类型

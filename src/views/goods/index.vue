@@ -10,9 +10,16 @@ import GoodsSku from "./components/goods-sku.vue"
 
 const {goods} = useStore()
 const route = useRoute()
+
+// 1. 一进入页面立即执行
+// 2. 依赖于路由参数id，当id变化的时候，重新执行
 watchEffect(() => {
     const id = route.params.id as string
+    // 判断id是否存在，以及路由是否匹配
     if (id && route.fullPath === `/goods/${id}`) {
+        // 重置数据
+        goods.resetGoodsInfo()
+        // 获取数据
         goods.getGoodsInfo(id)
     }
 })
