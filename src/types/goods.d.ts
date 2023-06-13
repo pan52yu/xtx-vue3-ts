@@ -36,6 +36,15 @@ export type Sku = {
         valueName: string
     }[]
 }
+
+// 商品详情
+type GoodsDetail = {
+    pictures: string[]
+    properties: {
+        name: string
+        value: string
+    }[]
+}
 // 商品模块的类型声明
 export type GoodsInfo = {
     id: string
@@ -62,5 +71,6 @@ export type GoodsInfo = {
         name: string
     }[]
     specs: Spec[],
-    skus: Sku[]
+    skus: Sku[],
+    details: GoodsDetail
 }
