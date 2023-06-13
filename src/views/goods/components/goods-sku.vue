@@ -9,13 +9,16 @@ const props = defineProps<{
     goods: GoodsInfo
     skuId?: string
 }>()
-
+const emit = defineEmits<{
+    // changeSku: (skuId: string) => void
+    (e: "changeSku", skuId: string): void
+}>()
 const SPLIT_STR = '+'
 
 /**
  * 选中规格
- * @param item
- * @param sub
+ * @param item Spec
+ * @param sub  SpecValue
  */
 const changeSelected = (item: Spec, sub: SpecValue) => {
     if (sub.disabled) return
@@ -29,6 +32,23 @@ const changeSelected = (item: Spec, sub: SpecValue) => {
         sub.selected = true
     }
     updateDisabledStatus()
+
+    // 更新skuId
+    // (1)判断所有的规格是否都选中了
+    // (2)如果都选中了，获取到sku的id
+    const selectedSpec = getSelectedSpec()
+    const isAllSelected = selectedSpec.every(Boolean)
+    if (isAllSelected) {
+        // 1. 把数组转成字符串 得到的是组合的key
+        const key = selectedSpec.join(SPLIT_STR)
+        // 2. 判断key是否在路径字典中
+        if (key in pathMap) {
+            // 3. 如果在，获取到sku的id >>> 匹配成功后 只有一个skuId
+            const skuId = pathMap[key][0]
+            // 4. 把skuId传给父组件
+            emit('changeSku', skuId)
+        }
+    }
 }
 
 

@@ -25,6 +25,15 @@ watchEffect(() => {
 })
 
 const {info} = storeToRefs(goods)
+
+const changeSku = (skuId: string) => {
+    const sku = info.value.skus.find((sku) => sku.id === skuId)
+    if (sku) {
+        info.value.inventory = sku.inventory
+        info.value.price = sku.price
+        info.value.oldPrice = sku.oldPrice
+    }
+}
 </script>
 
 <template>
@@ -52,7 +61,7 @@ const {info} = storeToRefs(goods)
                     <div class="spec">
                         <GoodsName :goods="info"></GoodsName>
                         <!-- 规格组件 -->
-                        <GoodsSku :goods="info" sku-id="1369155863389933570"/>
+                        <GoodsSku :goods="info" @changeSku="changeSku"/>
                     </div>
                 </div>
                 <!-- 商品详情 -->
