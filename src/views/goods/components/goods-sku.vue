@@ -2,8 +2,12 @@
 import {GoodsInfo, Spec, SpecValue} from '@/types/goods'
 import bwPowerSet from "@/utils/power-set";
 
+// 1. （必传）需要传入 商品信息
+// 2. （可选）传入 skuId 用于回显
+// 3. 当全部规格都选中的时候，需要获取到sku的id 并传给父组件
 const props = defineProps<{
     goods: GoodsInfo
+    skuId?: string
 }>()
 
 const SPLIT_STR = '+'
@@ -86,7 +90,28 @@ const getSelectedSpec = () => {
     return arr
 }
 
+// 初始化时，设置默认选中效果
+const initSelectedSpec = () => {
+    if (!props.skuId) return
+    // 1. 根据skuId获取到sku
+    const sku = props.goods.skus.find((item) => item.id === props.skuId)
+    if (!sku) return
+    // 2. 遍历sku的specs，设置选中状态
+    props.goods.specs.forEach((item, index) => {
+        // 2.1 找到对应的规格值
+        const temp = item.values.find((sub) => sub.name === sku.specs[index].valueName)
+        if (temp) {
+            // 2.2 设置选中状态
+            temp.selected = true
+        }
+    })
+}
+
+// 1. 获取路径字典
 const pathMap = getPathMap()
+// 2. 如果有skuId，需要回显
+initSelectedSpec()
+// 3. 更新按钮的禁用状态
 updateDisabledStatus()
 </script>
 <template>
