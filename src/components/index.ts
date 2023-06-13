@@ -11,18 +11,18 @@ import {useIntersectionObserver} from "@vueuse/core"
 import DefaultImg from "@/assets/images/200.png"
 
 export default {
-    install(app: App) {
-        app.component("XtxSkeleton", XtxSkelecton)
-        app.component("XtxCarousel", XtxCarousel)
-        app.component("XtxMore", XtxMore)
-        app.component("XtxCity", XtxCity)
-        app.component("XtxBread", Bread)
-        app.component("XtxBreadItem", BreadItem)
-        app.component("XtxNumbox", XtxNumbox)
+    install(Vue: App) {
+        Vue.component("XtxSkeleton", XtxSkelecton)
+        Vue.component("XtxCarousel", XtxCarousel)
+        Vue.component("XtxMore", XtxMore)
+        Vue.component("XtxCity", XtxCity)
+        Vue.component("XtxBread", Bread)
+        Vue.component("XtxBreadItem", BreadItem)
+        Vue.component("XtxNumbox", XtxNumbox)
 
         //     全局指令
         //   懒加载图片 <img v-lazy="imgUrl" alt="">
-        app.directive("lazy", {
+        Vue.directive("lazy", {
             mounted(el: HTMLImageElement, binding: any) {
                 const {stop} = useIntersectionObserver(el, ([{isIntersecting}]) => {
                     if (isIntersecting) {
