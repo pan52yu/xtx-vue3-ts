@@ -17,6 +17,15 @@ export default defineStore('user', {
             })
             this.profile = res.data.result
         },
+        //  手机号验证码登录
+        async mobileLogin(mobile: string, code: string) {
+            const res = await request.post<ApiRes<Profile>>('/login/code', {
+                mobile,
+                code
+            })
+            // 1. 保存用户信息到 state 中
+            this.profile = res.data.result
+        },
         // 获取手机验证码
         async sendMobileMsg(mobile: string) {
             await request.get('/login/code', {
@@ -25,6 +34,5 @@ export default defineStore('user', {
                 }
             })
         }
-        //  用户名验证码登录
     }
 })

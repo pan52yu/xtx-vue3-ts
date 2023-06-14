@@ -22,12 +22,12 @@ const {validate, resetForm} = useForm({
     validationSchema: {
         account(value: string) {
             if (!value) return '请输入用户名'
-            if (!/^[a-zA-Z]\w{5,19}$/.test(value)) return '字母开头且6-20个字符'
+            // if (!/^[a-zA-Z]\w{5,19}$/.test(value)) return '字母开头且6-20个字符'
             return true
         },
         password: (value: string) => {
             if (!value) return '请输入密码'
-            if (!/^\w{6,12}$/.test(value)) return '密码必须是6-24位字符'
+            // if (!/^\w{6,12}$/.test(value)) return '密码必须是6-24位字符'
             return true
         },
         isAgree: (value: boolean) => {
@@ -44,6 +44,13 @@ const {validate, resetForm} = useForm({
             if (!/^\d{6}$/.test(value)) return '验证码格式错误'
             return true
         },
+    },
+    initialValues: {
+        mobile: '13666666666',
+        code: '123456',
+        account: 'demo',
+        password: 'hm#qd@23!',
+        isAgree: true
     }
 })
 
@@ -63,9 +70,15 @@ watch(type, () => {
 // 登录
 const login = async () => {
     const res = await validate()
-    if (!res.valid) return
-
-    await user.login(form.value.account, form.value.password)
+    if (type.value === 'account') {
+        // 账号密码登录
+        if (res.errors.account || res.errors.password || res.errors.isAgree) return
+        await user.login(form.value.account, form.value.password)
+    } else {
+        // 手机号登录
+        if (res.errors.mobile || res.errors.code || res.errors.isAgree) return
+        await user.mobileLogin(mobile.value, code.value)
+    }
     Message.success('登录成功')
     await router.push("/")
 }
@@ -85,7 +98,6 @@ const send = async () => {
     }
     await user.sendMobileMsg(mobile.value)
     Message.success('获取验证码成功')
-    time.value = 60
     start()
 }
 </script>
