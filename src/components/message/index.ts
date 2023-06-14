@@ -14,6 +14,8 @@ div.setAttribute('class', 'xtx-message-container')
 // 3.添加到body中
 document.body.appendChild(div)
 
+let timer: number = -1
+
 // 4.创建一个函数
 function Message({type, text, duration = 2000}: Props) {
     // (1) 创建虚拟节点
@@ -21,7 +23,8 @@ function Message({type, text, duration = 2000}: Props) {
     // (2) 渲染虚拟节点
     render(vNode, div)
     // (3) 卸载虚拟节点
-    setTimeout(() => {
+    clearTimeout(timer)
+    timer = window.setTimeout(() => {
         render(null, div)
     }, duration)
 }

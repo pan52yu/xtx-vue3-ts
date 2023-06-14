@@ -1,6 +1,6 @@
 // 自定义一些通用的compositions api
-import {useIntersectionObserver} from '@vueuse/core'
-import {onBeforeUnmount, onMounted, ref} from 'vue'
+import {useIntersectionObserver, useIntervalFn} from '@vueuse/core'
+import {onBeforeUnmount, onMounted, onUnmounted, ref} from 'vue'
 
 /**
  * @description: 封装通用的数据懒加载api
@@ -50,4 +50,37 @@ export function useScrollY() {
         window.removeEventListener('scroll', onScroll)
     })
     return y
+}
+
+/**
+ * 封装一个倒计时功能
+ * @param count 倒计时的时间
+ */
+export function useCountDown(count: number = 60) {
+    const time = ref(0)
+    const {pause, resume} = useIntervalFn(
+        () => {
+            time.value--
+            if (time.value === 0) {
+                pause()
+            }
+        },
+        1000,
+        {immediate: false}
+    )
+
+    // 组件销毁时清除定时器
+    onUnmounted(() => {
+        pause()
+    })
+
+    const start = () => {
+        time.value = count
+        resume()
+    }
+
+    return {
+        time,
+        start
+    }
 }

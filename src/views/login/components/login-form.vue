@@ -4,6 +4,7 @@ import Message from "@/components/message";
 import useStore from "@/store";
 import {useRouter} from "vue-router";
 import {useField, useForm} from 'vee-validate'
+import {useCountDown} from "@/utils/hooks";
 
 const router = useRouter()
 const type = ref<'account' | 'mobile'>('account')
@@ -50,7 +51,7 @@ const {validate, resetForm} = useForm({
 const {value: account, errorMessage: accountError} = useField<string>('account')
 const {value: password, errorMessage: passwordError} = useField<string>('password')
 const {value: isAgree, errorMessage: isAgreeError} = useField<boolean>('isAgree')
-const {value: mobile, errorMessage: mobileError} = useField<string>('mobile')
+const {value: mobile, errorMessage: mobileError, validate: validateMobile,} = useField<string>('mobile')
 const {value: code, errorMessage: codeError} = useField<string>('code')
 
 // 监听type的变化
@@ -63,13 +64,29 @@ watch(type, () => {
 const login = async () => {
     const res = await validate()
     if (!res.valid) return
-    try {
-        await user.login(form.value.account, form.value.password)
-        Message.success('登录成功')
-        await router.push("/")
-    } catch (e) {
-        Message.error('用户名或密码错误')
+
+    await user.login(form.value.account, form.value.password)
+    Message.success('登录成功')
+    await router.push("/")
+}
+
+const mobileRef = ref<HTMLInputElement | null>(null)
+
+const {time, start} = useCountDown(60)
+
+const send = async () => {
+    if (time.value > 0) return
+    // 单独校验手机号
+    const res = await validateMobile()
+    if (!res.valid) {
+        // 如果没通过，自动获取手机号的焦点
+        mobileRef.value!.focus()
+        return
     }
+    await user.sendMobileMsg(mobile.value)
+    Message.success('获取验证码成功')
+    time.value = 60
+    start()
 }
 </script>
 <template>
@@ -105,7 +122,7 @@ const login = async () => {
                 <div class="form-item">
                     <div class="input">
                         <i class="iconfont icon-user"></i>
-                        <input v-model="mobile" placeholder="请输入手机号" type="text"/>
+                        <input ref="mobileRef" v-model="mobile" placeholder="请输入手机号" type="text"/>
                     </div>
                     <div v-if="mobileError" class="error">
                         <i class="iconfont icon-warning"/>{{ mobileError }}
@@ -114,8 +131,10 @@ const login = async () => {
                 <div class="form-item">
                     <div class="input">
                         <i class="iconfont icon-code"></i>
-                        <input v-model="code" placeholder="请输入验证码" type="text"/>
-                        <span class="code">发送验证码</span>
+                        <input v-model="code" placeholder="请输入验证码" type="password"/>
+                        <span class="code" @click="send">
+                            {{ time === 0 ? '发送验证码' : `${time}s后发送` }}
+                        </span>
                     </div>
                     <div v-if="codeError" class="error">
                         <i class="iconfont icon-warning"/>{{ codeError }}

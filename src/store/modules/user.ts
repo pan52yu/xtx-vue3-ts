@@ -16,6 +16,14 @@ export default defineStore('user', {
                 password
             })
             this.profile = res.data.result
+        },
+        // 获取手机验证码
+        async sendMobileMsg(mobile: string) {
+            await request.get('/login/code', {
+                params: {
+                    mobile
+                }
+            })
         }
         //  用户名验证码登录
     }
