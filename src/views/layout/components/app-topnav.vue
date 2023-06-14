@@ -12,14 +12,12 @@ const logout = () => {
         title: '退出登录',
         text: '确定要退出登录吗？'
     }).then(() => {
-        console.log('确定')
+        user.logout()
+        router.push('/login')
+        Message.success('退出成功')
     }).catch(() => {
-        console.log('取消')
+        console.log('取消退出')
     })
-    return
-    user.logout()
-    router.push('/login')
-    Message.success('退出成功')
 }
 </script>
 

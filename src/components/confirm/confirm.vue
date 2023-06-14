@@ -1,6 +1,6 @@
 <script lang="ts" name="XtxConfirm" setup>
 import XtxButton from "@/components/button/index.vue"
-import {onMounted, PropType, ref} from "vue";
+import {nextTick, onMounted, PropType, ref} from "vue";
 
 defineProps({
     title: {
@@ -21,6 +21,7 @@ defineProps({
 
 const show = ref(false)
 onMounted(() => {
+    // 为了让动画生效，需要把dom插入到页面中，所以要等dom渲染完毕
     setTimeout(() => {
         show.value = true
     }, 20)
