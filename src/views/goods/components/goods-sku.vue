@@ -48,6 +48,8 @@ const changeSelected = (item: Spec, sub: SpecValue) => {
             // 4. 把skuId传给父组件
             emit('changeSku', skuId)
         }
+    } else {
+        emit('changeSku', '')
     }
 }
 

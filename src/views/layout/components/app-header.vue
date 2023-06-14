@@ -1,6 +1,7 @@
-<script lang="ts" setup name="AppHeader">
+<script lang="ts" name="AppHeader" setup>
 //
 import AppHeaderNav from "@/views/layout/components/app-header-nav.vue";
+import AppHeaderCart from "@/views/layout/components/app-header-cart.vue";
 </script>
 
 <template>
@@ -13,18 +14,15 @@ import AppHeaderNav from "@/views/layout/components/app-header-nav.vue";
             <app-header-nav></app-header-nav>
             <div class="search">
                 <i class="iconfont icon-search"></i>
-                <input type="text" placeholder="搜一搜"/>
+                <input placeholder="搜一搜" type="text"/>
             </div>
-            <div class="cart">
-                <a class="curr" href="#">
-                    <i class="iconfont icon-cart"></i><em>2</em>
-                </a>
-            </div>
+            <!--      购物车      -->
+            <app-header-cart></app-header-cart>
         </div>
     </header>
 </template>
 
-<style scoped lang="less">
+<style lang="less" scoped>
 .app-header {
     background: #fff;
 

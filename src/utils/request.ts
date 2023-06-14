@@ -1,5 +1,6 @@
 import axios, {AxiosError} from 'axios'
 import Message from "@/components/message";
+import useStore from "@/store";
 
 // 备用接口地址: http://pcapi-xiaotuxian-front-devtest.itheima.net/
 const instance = axios.create({
@@ -12,6 +13,10 @@ const instance = axios.create({
 instance.interceptors.request.use(
     function (config) {
         // 在发送请求之前做些什么
+        const {user} = useStore()
+        if (user.profile.token) {
+            config.headers.Authorization = `Bearer ${user.profile.token}`
+        }
         return config
     },
     function (error) {

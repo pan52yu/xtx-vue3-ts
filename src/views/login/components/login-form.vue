@@ -189,6 +189,7 @@ const send = async () => {
 
         a {
             color: @xtxColor;
+            
 
             i {
                 font-size: 14px;

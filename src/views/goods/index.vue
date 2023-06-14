@@ -9,8 +9,9 @@ import GoodsName from "./components/goods-name.vue"
 import GoodsSku from "./components/goods-sku.vue"
 import GoodsDetail from "@/views/goods/components/goods-detail.vue";
 import GoodsHot from "@/views/goods/components/goods-hot.vue";
+import Message from "@/components/message";
 
-const {goods} = useStore()
+const {goods, cart} = useStore()
 const route = useRoute()
 
 // 1. 一进入页面立即执行
@@ -27,8 +28,10 @@ watchEffect(() => {
 })
 
 const {info} = storeToRefs(goods)
-
+// 保存skuId
+const currentSkuId = ref<string>('')
 const changeSku = (skuId: string) => {
+    currentSkuId.value = skuId
     const sku = info.value.skus.find((sku) => sku.id === skuId)
     if (sku) {
         info.value.inventory = sku.inventory
@@ -38,6 +41,17 @@ const changeSku = (skuId: string) => {
 }
 
 const count = ref(1)
+
+const addCart = () => {
+    // 判断是否是完整的sku
+    if (!currentSkuId.value) {
+        return Message.warning('请选择完整信息')
+    }
+    cart.addCart({
+        skuId: currentSkuId.value,
+        count: count.value
+    })
+}
 </script>
 
 <template>
@@ -69,7 +83,7 @@ const count = ref(1)
                         <!-- 数字选择器 -->
                         <XtxNumbox v-model="count"></XtxNumbox>
                         <!-- 加入购物车 -->
-                        <xtx-button style="margin-top: 20px;" type="primary">加入购物车</xtx-button>
+                        <xtx-button style="margin-top: 20px;" type="primary" @click="addCart">加入购物车</xtx-button>
                     </div>
                 </div>
                 <!-- 商品详情 -->
