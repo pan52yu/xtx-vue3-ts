@@ -1,9 +1,14 @@
 <script lang="ts" name="LoginForm" setup>
 import {ref} from "vue";
+import Message from "@/components/message";
 
 const type = ref<'account' | 'mobile'>('account')
 
 const isAgree = ref(false)
+
+const login = () => {
+    Message.success('登录成功')
+}
 </script>
 <template>
     <div class="account-box">
@@ -54,7 +59,7 @@ const isAgree = ref(false)
                     <a href="javascript:;">《服务条款》</a>
                 </div>
             </div>
-            <a class="btn" href="javascript:;">登录</a>
+            <a class="btn" href="javascript:;" @click="login">登录</a>
         </div>
         <div class="action">
             <img
