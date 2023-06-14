@@ -2,11 +2,21 @@
 import useStore from "@/store";
 import {useRouter} from "vue-router";
 import Message from "@/components/message";
+import Confirm from "@/components/confirm";
 
 const router = useRouter()
 const {user} = useStore()
 
 const logout = () => {
+    Confirm({
+        title: '退出登录',
+        text: '确定要退出登录吗？'
+    }).then(() => {
+        console.log('确定')
+    }).catch(() => {
+        console.log('取消')
+    })
+    return
     user.logout()
     router.push('/login')
     Message.success('退出成功')
