@@ -1,13 +1,28 @@
 <script lang="ts" name="LoginForm" setup>
 import {ref} from "vue";
 import Message from "@/components/message";
+import useStore from "@/store";
+import {useRouter} from "vue-router";
 
+const router = useRouter()
 const type = ref<'account' | 'mobile'>('account')
 
-const isAgree = ref(false)
+const form = ref({
+    account: 'demo',
+    password: 'hm#qd@23!',
+    isAgree: false,
+})
 
-const login = () => {
-    Message.success('登录成功')
+const {user} = useStore()
+
+const login = async () => {
+    try {
+        await user.login(form.value.account, form.value.password)
+        Message.success('登录成功')
+        await router.push("/")
+    } catch (e) {
+        Message.error('用户名或密码错误')
+    }
 }
 </script>
 <template>
@@ -25,14 +40,14 @@ const login = () => {
                 <div class="form-item">
                     <div class="input">
                         <i class="iconfont icon-user"></i>
-                        <input placeholder="请输入用户名或手机号" type="text"/>
+                        <input v-model="form.account" placeholder="请输入用户名或手机号" type="text"/>
                     </div>
                     <!-- <div class="error"><i class="iconfont icon-warning" />请输入手机号</div> -->
                 </div>
                 <div class="form-item">
                     <div class="input">
                         <i class="iconfont icon-lock"></i>
-                        <input placeholder="请输入密码" type="password"/>
+                        <input v-model="form.password" placeholder="请输入密码" type="password"/>
                     </div>
                 </div>
             </template>
@@ -53,7 +68,7 @@ const login = () => {
             </template>
             <div class="form-item">
                 <div class="agree">
-                    <xtx-checkbox v-model="isAgree"><span>我已同意</span></xtx-checkbox>
+                    <xtx-checkbox v-model="form.isAgree"><span>我已同意</span></xtx-checkbox>
                     <a href="javascript:;">《隐私条款》</a>
                     <span>和</span>
                     <a href="javascript:;">《服务条款》</a>
