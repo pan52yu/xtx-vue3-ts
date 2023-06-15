@@ -112,4 +112,5 @@ export default defineStore('cart', {
             this.list = []
         }
     },
+    persist: true
 });
