@@ -2,10 +2,11 @@
 import {ref, watch} from "vue";
 import Message from "@/components/message";
 import useStore from "@/store";
-import {useRouter} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import {useField, useForm} from 'vee-validate'
 import {useCountDown} from "@/utils/hooks";
 
+const route = useRoute()
 const router = useRouter()
 const type = ref<'account' | 'mobile'>('account')
 
@@ -82,9 +83,10 @@ const login = async () => {
 
     // 登录成功后，合并购物车
     const {cart} = useStore()
-    cart.mergeCart()
+    await cart.mergeCart()
     Message.success('登录成功')
-    router.push("/")
+    const redirectUrl = (route.query.redirectUrl as string) || '/'
+    await router.push(redirectUrl)
 }
 
 const mobileRef = ref<HTMLInputElement | null>(null)

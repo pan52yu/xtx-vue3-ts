@@ -1,6 +1,7 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
 import Layout from '@/views/layout/index.vue'
 import Home from '@/views/home/index.vue'
+import useStore from "@/store";
 
 const router = createRouter({
     scrollBehavior(to, from, savedPosition) {
@@ -49,3 +50,23 @@ const router = createRouter({
     ]
 })
 export default router
+
+// 配置路由导航守卫，拦截 /member开头的所有的地址
+router.beforeEach((to, from, next) => {
+    // 判断用户登没登录
+    const {cart} = useStore()
+    if (cart.isLogin) {
+        next()
+    } else {
+        if (to.path.includes('/member')) {
+            next({
+                path: '/login',
+                query: {
+                    redirectUrl: to.fullPath
+                }
+            })
+        } else {
+            next()
+        }
+    }
+})
