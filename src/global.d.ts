@@ -8,6 +8,7 @@ import XtxNumbox from "@/components/numbox/index.vue"
 import XtxButton from "@/components/button/index.vue"
 import XtxCheckbox from '@/components/checkbox/index.vue'
 import XtxDialog from '@/components/dialog/index.vue'
+import XtxSwitch from '@/components/switch/index.vue'
 // 参考1：https://stackoverflow.com/questions/69010567/how-to-make-vscode-recognize-global-component-in-vue
 // 参考2：https://github.com/element-plus/element-plus/blob/dev/global.d.ts
 declare module "@vue/runtime-core" {
@@ -22,6 +23,7 @@ declare module "@vue/runtime-core" {
         XtxButton: typeof XtxButton
         XtxCheckbox: typeof XtxCheckbox
         XtxDialog: typeof XtxDialog
+        XtxSwitch: typeof XtxSwitch
     }
 }
 export {}
