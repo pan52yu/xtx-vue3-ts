@@ -7,6 +7,7 @@ import XtxCity from "./city/index.vue"
 import XtxNumbox from "./numbox/index.vue"
 import XtxButton from "./button/index.vue"
 import XtxCheckbox from '@/components/checkbox/index.vue'
+import XtxDialog from '@/components/dialog/index.vue'
 import Bread from "./bread/index.vue"
 import BreadItem from "./bread/item.vue"
 import {useIntersectionObserver} from "@vueuse/core"
@@ -23,6 +24,7 @@ export default {
         Vue.component("XtxNumbox", XtxNumbox)
         Vue.component("XtxButton", XtxButton)
         Vue.component("XtxCheckbox", XtxCheckbox)
+        Vue.component("XtxDialog", XtxDialog)
 
         //     全局指令
         //   懒加载图片 <img v-lazy="imgUrl" alt="">
