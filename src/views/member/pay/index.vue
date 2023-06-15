@@ -1,6 +1,6 @@
 <script lang="ts" name="XtxPayPage" setup>
 import {ApiRes} from '@/types/data'
-import request from '@/utils/request'
+import request, {baseURL} from '@/utils/request'
 import {onMounted, ref, watch} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 import {OrderPayInfo} from '@/types/order'
@@ -26,12 +26,17 @@ onMounted(async () => {
             return Message({type: 'warning', text: '订单已超时，请重新下单~'})
         }
         showTime.value = val
-    })
+    }, {immediate: true})
 })
 
 const formatTime = (time: number) => {
     return dayjs.unix(time).format('mm分ss秒')
 }
+
+// 使用encodeURIComponent对url进行编码
+const redirectUrl = encodeURIComponent('http://127.0.0.1:5173/#/pay/callback')
+// 支付宝支付地址
+const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redirectUrl}`
 </script>
 <template>
     <div class="xtx-pay-page">
@@ -62,7 +67,7 @@ const formatTime = (time: number) => {
                 <div class="item">
                     <p>支付平台</p>
                     <a class="btn wx" href="javascript:;"></a>
-                    <a class="btn alipay" href="javascript:;"></a>
+                    <a :href="payUrl" class="btn alipay"></a>
                 </div>
                 <div class="item">
                     <p>支付方式</p>
