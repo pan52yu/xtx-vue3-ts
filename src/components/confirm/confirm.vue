@@ -32,7 +32,7 @@ onMounted(() => {
         <div :class="{fade: show}" class="wrapper">
             <div class="header">
                 <h3>{{ title }}</h3>
-                <a class="iconfont icon-close-new" href="JavaScript:;"></a>
+                <a class="iconfont icon-close-new" href="JavaScript:;" @click="cancelCallback"></a>
             </div>
             <div class="body">
                 <i class="iconfont icon-warning"></i>

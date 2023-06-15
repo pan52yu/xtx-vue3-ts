@@ -2,7 +2,9 @@
 import useStore from "@/store";
 import Message from "@/components/message";
 import Confirm from "@/components/confirm";
+import {useRouter} from "vue-router";
 
+const router = useRouter()
 const {cart} = useStore()
 
 const delCart = async (skuIds: string[]) => {
@@ -20,6 +22,14 @@ const handleChange = async (value: boolean, skuId: string) => {
 
 const changeCount = async (value: number, skuId: string) => {
     await cart.updateCart(skuId, {count: value})
+}
+
+// 跳转到结算页
+const goCheckout = () => {
+    if (cart.selectedList.length === 0) {
+        return Message.warning('请至少选择一件商品')
+    }
+    router.push('/member/checkout')
 }
 </script>
 
@@ -104,7 +114,7 @@ const changeCount = async (value: number, skuId: string) => {
                 <div class="total">
                     共 {{ cart.effectiveListCounts }} 件有效商品，已选择 {{ cart.selectedListCounts }} 件，商品合计：
                     <span class="red">¥{{ cart.selectedListPrice }}</span>
-                    <XtxButton type="primary">下单结算</XtxButton>
+                    <XtxButton type="primary" @click="goCheckout">下单结算</XtxButton>
                 </div>
             </div>
         </div>
