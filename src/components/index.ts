@@ -9,6 +9,8 @@ import XtxButton from "./button/index.vue"
 import XtxCheckbox from '@/components/checkbox/index.vue'
 import XtxDialog from '@/components/dialog/index.vue'
 import XtxSwitch from '@/components/switch/index.vue'
+import XtxTabs from '@/components/tabs/index.vue'
+import XtxTabsPane from '@/components/tabs/pane.vue'
 import Bread from "./bread/index.vue"
 import BreadItem from "./bread/item.vue"
 import {useIntersectionObserver} from "@vueuse/core"
@@ -27,6 +29,8 @@ export default {
         Vue.component("XtxCheckbox", XtxCheckbox)
         Vue.component("XtxDialog", XtxDialog)
         Vue.component("XtxSwitch", XtxSwitch)
+        Vue.component("XtxTabs", XtxTabs)
+        Vue.component("XtxTabsPane", XtxTabsPane)
 
         //     全局指令
         //   懒加载图片 <img v-lazy="imgUrl" alt="">

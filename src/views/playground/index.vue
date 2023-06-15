@@ -1,29 +1,30 @@
 <script lang="ts" setup>
+import {ref} from 'vue'
 
-import {h, onMounted, ref, render} from "vue";
-
-const vNode = h('h1', {
-    title: 'hello world!!!',
-    id: "h1Element",
-    className: "content"
-}, 'hello world')
-
-
-const show = ref(false)
-onMounted(() => {
-    render(vNode, document.querySelector('.box')!)
-})
+// 订单状态
+const orderStatus = [
+    {name: 'allD', label: '全部订单'},
+    {name: 'unpay', label: '待付款'},
+    {name: 'deliver', label: '待发货'},
+    {name: 'receive', label: '待收货'},
+    {name: 'comment', label: '待评价'},
+    {name: 'refund', label: '退款/售后'}
+]
+const activeName = ref('all')
 </script>
+
 <template>
-    <div class="box"></div>
-    <xtx-button type="primary" @click="show = true">点我</xtx-button>
-    <Teleport to="body">
-        <xtx-dialog v-model:visible="show" title="我是标题">
-        </xtx-dialog>
-    </Teleport>
+    <xtx-tabs v-model="activeName">
+        <XtxTabsPane label="全部" name="all">
+            <h1>全部的内容</h1>
+        </XtxTabsPane>
+        <XtxTabsPane
+            v-for="item in orderStatus"
+            :key="item.label"
+            :label="item.label"
+            :name="item.name"
+        >
+            <h1>{{ item.name }}的内容</h1>
+        </XtxTabsPane>
+    </xtx-tabs>
 </template>
-<style lang="less" scoped>
-::v-deep(.content) {
-    background: #1dc779;
-}
-</style>
