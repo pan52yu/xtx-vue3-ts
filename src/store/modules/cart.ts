@@ -3,6 +3,7 @@ import request from "@/utils/request";
 import Message from "@/components/message";
 import {ApiRes} from "@/types/data";
 import {CartItem} from "@/types/cart";
+import useStore from "@/store";
 
 export default defineStore('cart', {
     // 状态
@@ -14,6 +15,11 @@ export default defineStore('cart', {
     },
     // 计算
     getters: {
+        // 🔑登录状态
+        isLogin(): boolean {
+            const {user} = useStore()
+            return !!user.profile.token
+        },
         // 计算有效商品列表 isEffective = true  filter
         effectiveList(): CartItem[] {
             return this.list.filter((item) => item.stock > 0 && item.isEffective)
@@ -51,15 +57,32 @@ export default defineStore('cart', {
     },
     // 方法
     actions: {
-        async addCart(data: { skuId: string; count: number }) {
-            await request.post('/member/cart', data)
-            Message.success('加入购物车成功')
-            await this.getCartList()
+        async addCart(data: CartItem) {
+            if (this.isLogin) {
+                const {skuId, count} = data
+                await request.post('/member/cart', {skuId, count})
+                Message.success('加入购物车成功')
+                await this.getCartList()
+            } else {
+                // 1. 判断购物车中是否已经存在该商品
+                const goods = this.list.find((item) => item.skuId === data.skuId)
+                if (goods) {
+                    // 2. 如果存在，数量相加
+                    goods.count += data.count
+                } else {
+                    // 3. 如果不存在，添加到数组中
+                    this.list.unshift(data)
+                }
+            }
         },
         // 获取购物车列表
         async getCartList() {
-            const res = await request.get<ApiRes<CartItem[]>>('/member/cart')
-            this.list = res.data.result
+            if (this.isLogin) {
+                const res = await request.get<ApiRes<CartItem[]>>('/member/cart')
+                this.list = res.data.result
+            } else {
+                console.log('本地添加购物车')
+            }
         },
         // 删除购物车商品
         async deleteCart(skuIds: string[]) {

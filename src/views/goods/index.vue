@@ -10,6 +10,7 @@ import GoodsSku from "./components/goods-sku.vue"
 import GoodsDetail from "@/views/goods/components/goods-detail.vue";
 import GoodsHot from "@/views/goods/components/goods-hot.vue";
 import Message from "@/components/message";
+import {CartItem} from "@/types/cart";
 
 const {goods, cart} = useStore()
 const route = useRoute()
@@ -47,10 +48,25 @@ const addCart = () => {
     if (!currentSkuId.value) {
         return Message.warning('请选择完整信息')
     }
+    const sku = info.value.skus.find((item) => item.id === currentSkuId.value)!
+    const attrsText = sku.specs
+        .map((item) => item.name + ':' + item.valueName)
+        .join(' ')
     cart.addCart({
+        // 本地添加
+        id: info.value.id,
+        name: info.value.name,
+        picture: info.value.mainPictures[0],
+        price: info.value.price,
+        count: count.value,
         skuId: currentSkuId.value,
-        count: count.value
-    })
+        attrsText: attrsText,
+        selected: true,
+        nowPrice: info.value.price,
+        stock: info.value.inventory,
+        isEffective: true,
+    } as CartItem)
+    Message.success('添加成功')
 }
 </script>
 
