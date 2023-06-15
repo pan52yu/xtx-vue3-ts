@@ -79,8 +79,12 @@ const login = async () => {
         if (res.errors.mobile || res.errors.code || res.errors.isAgree) return
         await user.mobileLogin(mobile.value, code.value)
     }
+
+    // 登录成功后，合并购物车
+    const {cart} = useStore()
+    cart.mergeCart()
     Message.success('登录成功')
-    await router.push("/")
+    router.push("/")
 }
 
 const mobileRef = ref<HTMLInputElement | null>(null)
@@ -189,7 +193,7 @@ const send = async () => {
 
         a {
             color: @xtxColor;
-            
+
 
             i {
                 font-size: 14px;

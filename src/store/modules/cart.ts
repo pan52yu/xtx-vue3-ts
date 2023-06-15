@@ -143,6 +143,17 @@ export default defineStore('cart', {
         //  清空购物车
         clearCart() {
             this.list = []
+        },
+        //  合并购物车
+        async mergeCart() {
+            const data = this.list.map(({skuId, selected, count}) => ({
+                skuId,
+                selected,
+                count
+            }))
+            await request.post('/member/cart/merge', data)
+            // 合并成功，重新获取购物车列表
+            await this.getCartList()
         }
     },
     persist: {
