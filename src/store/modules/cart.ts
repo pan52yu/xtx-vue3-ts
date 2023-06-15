@@ -81,36 +81,71 @@ export default defineStore('cart', {
                 const res = await request.get<ApiRes<CartItem[]>>('/member/cart')
                 this.list = res.data.result
             } else {
-                console.log('本地添加购物车')
+                // 遍历发送请求, 校验更新sku商品的库存和价格, 是否有效
+                for (const cartItem of this.list) {
+                    const {skuId} = cartItem
+                    // 根据 skuId 获取最新商品信息
+                    const res = await request.get<ApiRes<CartItem>>(
+                        `/goods/stock/${skuId}`
+                    )
+                    // 保存最新商品信息
+                    const lastCartInfo = res.data.result
+                    // 更新商品现价
+                    cartItem.nowPrice = lastCartInfo.nowPrice
+                    // 更新商品库存
+                    cartItem.stock = lastCartInfo.stock
+                    // 更新商品是否有效
+                    cartItem.isEffective = lastCartInfo.isEffective
+                }
             }
         },
         // 删除购物车商品
         async deleteCart(skuIds: string[]) {
-            await request.delete('/member/cart', {
-                data: {ids: skuIds}
-            })
-            Message.success('删除成功')
-            // 重新获取最新购物车列表
-            await this.getCartList()
+            if (this.isLogin) {
+                await request.delete('/member/cart', {
+                    data: {ids: skuIds}
+                })
+                Message.success('删除成功')
+                // 重新获取最新购物车列表
+                await this.getCartList()
+            } else {
+                // 本地删除
+                this.list = this.list.filter((item) => !skuIds.includes(item.skuId))
+            }
         },
         // 修改购物车商品 选中状态  数量
         async updateCart(skuId: string, data: { selected?: boolean; count?: number }) {
-            await request.put(`/member/cart/${skuId}`, data)
-            // 重新获取最新购物车列表
-            await this.getCartList()
+            if (this.isLogin) {
+                await request.put(`/member/cart/${skuId}`, data)
+                // 重新获取最新购物车列表
+                await this.getCartList()
+            } else {
+                // 本地修改
+                const goods = this.list.find((item) => item.skuId === skuId)
+                if (goods) {
+                    goods.selected = data.selected ?? goods.selected
+                    goods.count = data.count ?? goods.count
+                }
+            }
         },
         // 修改全选或者全不选
         async updateCartAllSelected(isSelected: boolean) {
-            await request.put('/member/cart/selected', {
-                selected: isSelected,
-            })
-            // 获取购物车列表
-            await this.getCartList()
+            if (this.isLogin) {
+                await request.put('/member/cart/selected', {
+                    selected: isSelected,
+                })
+                // 获取购物车列表
+                await this.getCartList()
+            } else {
+                this.list.forEach((item) => (item.selected = isSelected))
+            }
         },
         //  清空购物车
         clearCart() {
             this.list = []
         }
     },
-    persist: true
+    persist: {
+        key: 'XtxCart'
+    }
 });
