@@ -81,7 +81,7 @@ const addCart = () => {
                         <!-- 规格组件 -->
                         <GoodsSku :goods="info" @changeSku="changeSku"/>
                         <!-- 数字选择器 -->
-                        <XtxNumbox v-model="count"></XtxNumbox>
+                        <XtxNumbox v-model="count" show-label></XtxNumbox>
                         <!-- 加入购物车 -->
                         <xtx-button style="margin-top: 20px;" type="primary" @click="addCart">加入购物车</xtx-button>
                     </div>

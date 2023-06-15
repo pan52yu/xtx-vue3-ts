@@ -1,8 +1,26 @@
 <script lang="ts" name="Cart" setup>
-//
 import useStore from "@/store";
+import Message from "@/components/message";
+import Confirm from "@/components/confirm";
 
 const {cart} = useStore()
+
+const delCart = async (skuIds: string[]) => {
+    await Confirm({
+        title: '温馨提示',
+        text: '你确定要删除吗?'
+    })
+    await cart.deleteCart(skuIds)
+    Message.success('删除成功')
+}
+
+const handleChange = async (value: boolean, skuId: string) => {
+    await cart.updateCart(skuId, {selected: value})
+}
+
+const changeCount = async (value: number, skuId: string) => {
+    await cart.updateCart(skuId, {count: value})
+}
 </script>
 
 <template>
@@ -17,7 +35,9 @@ const {cart} = useStore()
                     <thead>
                     <tr>
                         <th width="120">
-                            <XtxCheckbox>全选</XtxCheckbox>
+                            <XtxCheckbox :model-value="cart.isAllSelected"
+                                         @update:model-value="cart.updateCartAllSelected(!cart.isAllSelected)">全选
+                            </XtxCheckbox>
                         </th>
                         <th width="400">商品信息</th>
                         <th width="220">单价</th>
@@ -30,7 +50,7 @@ const {cart} = useStore()
                     <tbody>
                     <tr v-for="item in cart.effectiveList" :key="item.skuId">
                         <td>
-                            <XtxCheckbox :model-value="item.selected"/>
+                            <XtxCheckbox :model-value="item.selected" @change="handleChange($event,item.skuId)"/>
                         </td>
                         <td>
                             <div class="goods">
@@ -49,7 +69,8 @@ const {cart} = useStore()
                             <p>&yen;{{ item.nowPrice }}</p>
                         </td>
                         <td class="tc">
-                            <XtxNumbox :max="item.stock" :model-value="item.count"/>
+                            <XtxNumbox :max="item.stock" :model-value="item.count"
+                                       @update:model-value="changeCount($event,item.skuId)"/>
                         </td>
                         <td class="tc">
                             <p class="f16 red">
@@ -58,8 +79,20 @@ const {cart} = useStore()
                         </td>
                         <td class="tc">
                             <p><a href="javascript:;">移入收藏夹</a></p>
-                            <p><a class="green" href="javascript:;">删除</a></p>
+                            <p><a class="green" href="javascript:;" @click="delCart([item.skuId])">删除</a></p>
                             <p><a href="javascript:;">找相似</a></p>
+                        </td>
+                    </tr>
+                    <!-- 删除光购物车之后使用元素占位 -->
+                    <tr v-if="cart.effectiveList.length === 0">
+                        <td colspan="6">
+                            <div class="cart-none" style="text-align: center">
+                                <img alt="" src="@/assets/images/none.png"/>
+                                <p>购物车内暂时没有商品</p>
+                                <div class="btn" style="margin: 20px">
+                                    <XtxButton type="primary"> 继续逛逛</XtxButton>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     </tbody>
@@ -69,8 +102,8 @@ const {cart} = useStore()
             <div class="action">
                 <div class="batch"></div>
                 <div class="total">
-                    共 7 件有效商品，已选择 2 件，商品合计：
-                    <span class="red">¥400</span>
+                    共 {{ cart.effectiveListCounts }} 件有效商品，已选择 {{ cart.selectedListCounts }} 件，商品合计：
+                    <span class="red">¥{{ cart.selectedListPrice }}</span>
                     <XtxButton type="primary">下单结算</XtxButton>
                 </div>
             </div>

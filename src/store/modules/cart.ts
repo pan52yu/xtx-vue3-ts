@@ -27,6 +27,26 @@ export default defineStore('cart', {
             return this.effectiveList
                 .reduce((sum, item) => sum + item.count * Number(item.nowPrice), 0)
                 .toFixed(2)
+        },
+        isAllSelected(): boolean {
+            return (
+                this.effectiveList.length !== 0 &&
+                this.effectiveList.every((item) => item.selected)
+            )
+        },
+        // 已选择的列表
+        selectedList(): CartItem[] {
+            return this.effectiveList.filter((item) => item.selected)
+        },
+        // 已选择的商品总数
+        selectedListCounts(): number {
+            return this.selectedList.reduce((sum, item) => sum + item.count, 0)
+        },
+        // 已选择的列表总价
+        selectedListPrice(): string {
+            return this.selectedList
+                .reduce((sum, item) => sum + item.count * Number(item.nowPrice), 0)
+                .toFixed(2)
         }
     },
     // 方法
@@ -49,6 +69,24 @@ export default defineStore('cart', {
             Message.success('删除成功')
             // 重新获取最新购物车列表
             await this.getCartList()
+        },
+        // 修改购物车商品 选中状态  数量
+        async updateCart(skuId: string, data: { selected?: boolean; count?: number }) {
+            await request.put(`/member/cart/${skuId}`, data)
+            // 重新获取最新购物车列表
+            await this.getCartList()
+        },
+        // 修改全选或者全不选
+        async updateCartAllSelected(isSelected: boolean) {
+            await request.put('/member/cart/selected', {
+                selected: isSelected,
+            })
+            // 获取购物车列表
+            await this.getCartList()
+        },
+        //  清空购物车
+        clearCart() {
+            this.list = []
         }
     },
 });

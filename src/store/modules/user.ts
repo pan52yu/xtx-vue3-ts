@@ -3,6 +3,7 @@ import request from "@/utils/request";
 import {ApiRes} from "@/types/data";
 import {Profile} from "@/types/user";
 import {getProfile, removeProfile, setProfile} from "@/utils/storage";
+import useStore from "@/store";
 
 export default defineStore('user', {
     state: () => ({
@@ -41,6 +42,8 @@ export default defineStore('user', {
         logout() {
             this.profile = {} as Profile
             removeProfile()
+            const {cart} = useStore()
+            cart.clearCart()
         }
     }
 })
