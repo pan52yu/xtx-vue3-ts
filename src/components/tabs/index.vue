@@ -7,12 +7,18 @@ const props = defineProps({
         default: ''
     }
 })
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits<{
+    (event: 'update:modelValue', value: string): void,
+    (event: 'tab-click', value: { tab: VNode, index: number }): void
+}>()
 
 
-const clickFn = (item: VNode) => {
-    console.log(item.props?.name)
+const clickFn = (item: VNode, index: number) => {
     emit('update:modelValue', item.props?.name)
+    emit('tab-click', {
+        tab: item,
+        index: index
+    })
 }
 const slots = useSlots()
 const Tabs = () => {
@@ -35,12 +41,12 @@ const Tabs = () => {
     })
     const navs = (
         <nav>
-            {panes?.map((item) => {
+            {panes?.map((item, index) => {
                 return (
                     <a
                         href="javascript:;"
                         class={{active: props.modelValue === item.props?.name}}
-                        onClick={() => clickFn(item)}
+                        onClick={() => clickFn(item, index)}
                     >
                         {item.props?.label}
                     </a>
