@@ -1,6 +1,6 @@
 <script lang="ts" name="XtxConfirm" setup>
 import XtxButton from "@/components/button/index.vue"
-import {nextTick, onMounted, PropType, ref} from "vue";
+import {onMounted, PropType, ref} from "vue";
 
 defineProps({
     title: {
